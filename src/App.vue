@@ -98,8 +98,8 @@ function formatAmount(amount) {
 
 <template>
   <main>
-    <h1>Startup runway calculator</h1>
-    <p>See how long your cash could last.</p>
+    <h1>Startup Runway Simulator</h1>
+    <p>Compare how a planned hire changes your cash balance and runway.</p>
 
     <label>
       Starting cash ($)

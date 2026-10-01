@@ -1,5 +1,10 @@
 {
-  "name": "runway",
+  "name": "startup-runway-simulator",
+  "description": "Compare startup cash runway with and without a planned hire across a 12-month forecast.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LouisGou/startup-runway-simulator.git"
+  },
   "version": "0.0.0",
   "private": true,
   "type": "module",

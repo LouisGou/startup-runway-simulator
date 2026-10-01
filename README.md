@@ -1,70 +1,79 @@
 # Startup Runway Simulator
 
-A Vue app for exploring how a planned hire changes a startup's cash balance and runway. Adjust the financial assumptions to compare a no-hire baseline with a hiring scenario across 12 months.
+**Explore how a hiring decision changes a startup’s cash runway.**
 
-## Features
+An interactive Vue dashboard that compares a no-hire baseline with a planned hire over 12 months. Adjust the starting cash, monthly receipts, existing expenses, and hiring date to see the effect on cash balances and the projected cash-out month.
 
-- Enter starting cash, monthly cash receipts, and existing monthly expenses.
-- Set an employee's total monthly cost and start month.
-- Compare both scenarios on an interactive chart and in a monthly cash-flow table.
-- See each scenario's projected cash-out month, month-12 balance, and the additional hiring cost over the forecast.
-- Validate non-negative financial inputs and a hiring start month from 1 to 12.
+![Cash runway comparison with a $5,000 monthly hire starting in month 3](docs/preview.jpg)
 
-Built with Vue, JavaScript, Vite, Chart.js, and vue-chartjs. Calculations run in the browser; no backend or account is required. Inputs currently reset on refresh.
+## What it does
+
+- **Compare scenarios:** view no-hire and with-hire forecasts on the same interactive chart.
+- **Model a planned hire:** choose the total monthly employee cost and start month.
+- **Understand the impact:** compare projected cash-out points, month-12 balances, and additional expenses.
+- **Inspect the calculations:** follow opening cash, receipts, expenses, and closing cash in a monthly table.
+
+Built with **Vue 3, JavaScript, Vite, Chart.js, and vue-chartjs**. Calculations run in the browser. Inputs reset when the page is refreshed.
 
 ## Run locally
 
-Use Node.js matching the version range in `package.json` (`^22.18.0 || >=24.12.0`) and npm.
-
-From the project directory:
+Install Node.js matching the range in `package.json`: **22.18+ within version 22, or 24.12+**.
 
 ```sh
+git clone https://github.com/LouisGou/startup-runway-simulator.git
+cd startup-runway-simulator
 npm ci
 npm run dev
 ```
 
-Open the local URL printed in the terminal. To build and preview the production version:
+Open the local address printed in the terminal.
 
-```sh
-npm run build
-npm run preview
-```
+| Command           | Purpose                                   |
+| ----------------- | ----------------------------------------- |
+| `npm run dev`     | Start the development server              |
+| `npm run build`   | Create the production files in `dist/`    |
+| `npm run preview` | Preview the production build locally      |
+| `npm run lint`    | Run the linters and apply automatic fixes |
+| `npm run format`  | Format the source files                   |
 
-The production files are generated in `dist/`. `npm run lint` runs the configured linters and applies automatic fixes.
+## Try this example
 
-## Example: hiring in month 3
+Start with **$120,000** in cash, **$10,000** in monthly receipts, and **$20,000** in existing monthly expenses. Add an employee costing **$5,000 per month**, starting in **month 3**.
 
-Set starting cash to **$120,000**, monthly cash receipts to **$10,000**, and existing monthly expenses to **$20,000**. Add a hire costing **$5,000 per month**, starting in **month 3**.
+| Result                    | No hire         | With hire      |
+| ------------------------- | --------------- | -------------- |
+| Cash-out point            | End of month 12 | During month 9 |
+| Cash at month 12          | $0              | −$50,000       |
+| Additional hiring expense | $0              | $50,000        |
 
-| Result                      | No hire         | With hire      |
-| --------------------------- | --------------- | -------------- |
-| Cash-out point              | End of month 12 | During month 9 |
-| Cash at the end of month 12 | $0              | -$50,000       |
+With cash flowing evenly during each month, hiring reduces estimated runway from **12 months to approximately 8.67 months**—a reduction of **3.33 months**.
 
-Under the timing assumptions below, the hire reduces estimated runway from 12 to about 8.67 months, a reduction of about **3.33 months**. The extra expense is **$50,000** across months 3–12.
-
-## Financial model and assumptions
-
-Each month uses:
+## How the forecast works
 
 ```text
-Closing cash = Opening cash + Cash received - Cash paid
-Next month's opening cash = This month's closing cash
+Closing cash = Opening cash + Cash received − Cash paid
+Next month’s opening cash = This month’s closing cash
 ```
 
-- Cash receipts and existing expenses remain constant throughout the forecast.
-- The full employee cost is added every month from the selected start month, including that month. Enter the total employer cost, including benefits; avoid counting it again in existing expenses.
-- Hiring changes costs only; it does not automatically increase sales or cash receipts.
-- Cash comes in and goes out evenly within each month. Fractional runway estimates interpolate the point where cash reaches zero using that month's net cash burn.
-- Use one currency consistently. The dollar symbol is a display convention; the app does not convert currencies.
-- Negative balances show the funding gap if spending continues; the model does not automatically borrow or raise funding.
-- The horizon is **12 months**. A positive balance at month 12 does not mean indefinite runway, and cash-out dates beyond that horizon are not calculated.
-- This version does not model revenue growth, delayed collections, financing, taxes, or one-time expenses separately.
+The model makes these assumptions:
+
+- Monthly receipts and existing expenses stay constant.
+- The full hiring cost is added every month from the selected start month, including that month. Include benefits and other employer costs in this input.
+- Hiring changes expenses only; it does not automatically increase sales.
+- Money comes in and goes out evenly within each month. Fractional runway is interpolated using that month’s net cash burn.
+- All inputs use one currency. The dollar symbol is a display convention, with no currency conversion.
+- A negative balance represents the funding gap if spending continues; the model does not automatically raise or borrow money.
+
+**The forecast covers 12 months.** A positive balance at the end means cash lasts beyond the displayed period; it does not imply unlimited runway. This version does not separately model growth, delayed payments, financing, taxes, or one-time expenses.
 
 ## Project structure
 
 ```text
-src/App.vue                       Inputs, forecast calculations, summaries, and table
-src/components/CashFlowChart.vue   Interactive scenario comparison chart
-src/main.js                       Vue application entry point
+src/
+  App.vue                       Inputs, forecast calculations, summaries, and table
+  components/CashFlowChart.vue   Interactive comparison chart
+  assets/                       Shared styles
+  main.js                       App entry point
+public/favicon.svg              App icon
+docs/preview.jpg                Dashboard preview
 ```
