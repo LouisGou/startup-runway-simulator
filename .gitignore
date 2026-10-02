@@ -31,5 +31,8 @@ coverage
 
 .eslintcache
 
+# Vercel local project metadata
+.vercel
+
 # Vite
 *.timestamp-*-*.mjs
