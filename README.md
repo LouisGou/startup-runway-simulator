@@ -4,7 +4,7 @@
 
 An interactive Vue dashboard that compares a no-hire baseline with a planned hire over 12 months. Adjust the starting cash, monthly receipts, existing expenses, and hiring date to see the effect on cash balances and the projected cash-out month.
 
-**[Try the live app](https://startup-runway-simulator-tau.vercel.app/)** — open it in your browser; no account or installation required.
+**[Try the live app](https://startup-runway-simulator-tau.vercel.app/)** 
 
 ![Cash runway comparison with a $5,000 monthly hire starting in month 3](docs/preview.jpg)
 
